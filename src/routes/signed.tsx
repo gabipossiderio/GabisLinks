@@ -1,6 +1,7 @@
 import { ReactNode, useContext} from 'react'
 import { Navigate } from "react-router-dom";
 import { LoginContext } from "../contexts/login";
+import { LoadingNotice } from "../components/notices/loading";
 
 interface PrivateProps{
   children: ReactNode;
@@ -11,7 +12,7 @@ export function Signed({ children }: PrivateProps): any{
   const { loading } = useContext(LoginContext);
 
   if(loading){
-    return <div>Carregando...</div>
+    return (<LoadingNotice noticeText="Carregando"/>)
   }
 
   if(signed){
