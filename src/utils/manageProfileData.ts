@@ -17,7 +17,7 @@ export function loadProfileData(userId: string) {
   return getDocs(querySocialRef)
 }
 
-export async function setProfileData(data: ProfileData) {
+export async function updateProfileData(data: ProfileData) {
   const { user_id } = data
   const profileDocRef = doc(db, "profile", user_id);
   setDoc(profileDocRef, data)

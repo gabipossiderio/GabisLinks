@@ -2,7 +2,7 @@ import { useState, FormEvent, useEffect, useContext } from "react";
 import { Input } from "../../components/input";
 import { Header } from "../../components/header";
 import { LoginContext } from "../../contexts/login";
-import { loadProfileData, setProfileData } from "../../utils/manageProfileData";
+import { loadProfileData, updateProfileData } from "../../utils/manageProfileData";
 import { ConfirmationNotice } from "../../components/notices/confirmation";
 import { Helmet } from "react-helmet";
 
@@ -42,7 +42,7 @@ export function SocialMedia() {
   };
   function handleRegister(e: FormEvent) {
     e.preventDefault();
-    setProfileData(data);
+    updateProfileData(data);
     setUpdated(true);
     setTimeout(() => {
       setUpdated(false);

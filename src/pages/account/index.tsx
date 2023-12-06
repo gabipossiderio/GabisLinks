@@ -11,7 +11,7 @@ import {
   uploadBytes,
   deleteObject,
 } from "firebase/storage";
-import { loadProfileData, setProfileData } from "../../utils/manageProfileData";
+import { loadProfileData, updateProfileData } from "../../utils/manageProfileData";
 import PlaceholderImage from "../../assets/sem-foto.png";
 import { FaTrash } from "react-icons/fa6";
 import { ConfirmationNotice } from "../../components/notices/confirmation";
@@ -98,7 +98,7 @@ export function Account() {
       facebook: facebook,
     };
 
-    setProfileData(data)
+    updateProfileData(data)
       .then(() => {
         setUpdated(true);
         setTimeout(() => {

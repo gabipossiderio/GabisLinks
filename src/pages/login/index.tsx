@@ -10,7 +10,7 @@ import {
   GoogleAuthProvider,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { setProfileData } from "../../utils/manageProfileData";
+import { loadProfileData, updateProfileData } from "../../utils/manageProfileData";
 import { FailureNotice } from "../../components/notices/failure";
 import { Helmet } from "react-helmet";
 
@@ -60,16 +60,20 @@ export function Login() {
     signInWithPopup(auth, provider)
       .then((result) => {
         const user = result.user;
-        const data = {
-          user_photo: "",
-          user_name: user.displayName || "",
-          user_id: user.uid,
-          user_description: "",
-          youtube: "",
-          instagram: "",
-          facebook: "",
-        };
-        setProfileData(data);
+        loadProfileData(user.uid).then((result) => {
+          if (result.size === 0) {
+            const data = {
+              user_photo: "",
+              user_name: user.displayName!,
+              user_id: user.uid,
+              user_description: "",
+              youtube: "",
+              instagram: "",
+              facebook: "",
+            };
+            updateProfileData(data).then(() => {console.log('finished')})
+          }
+        })
       })
       .catch((error) => {
         console.log(error);

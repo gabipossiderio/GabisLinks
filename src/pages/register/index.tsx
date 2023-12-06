@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react";
 import { Input } from "../../components/input";
 import { auth } from "../../services/firebaseConnection";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { setProfileData } from "../../utils/manageProfileData";
+import { updateProfileData } from "../../utils/manageProfileData";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { FailureNotice } from "../../components/notices/failure";
 import { useNavigate } from "react-router-dom";
@@ -46,7 +46,7 @@ export function Register() {
         instagram: "",
         facebook: "",
       };
-      setProfileData(data)
+      updateProfileData(data)
     })
     .catch((error) => {
       const errorCode = error.code;
