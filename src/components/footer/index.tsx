@@ -23,7 +23,7 @@ export function Footer() {
           <div className="flex justify-center py-2s">
             {" "}
             <a
-              href="https://gabis-links.vercel.app/"
+              href="https://gabislinks.vercel.app/"
               rel="noopener noreferrer"
               className="menu text-xs text-gray-900/90 hover:scale-105 hover:text-sky-700 transition-all text-center gap-1 flex max-w-xs justify-center items-center"
               target="_blank"
@@ -38,7 +38,7 @@ export function Footer() {
         <small className=" text-xs menu text-gray-700/70">
           Todos os direitos reservados &#xa9; - {currentYear} - Desenvolvido por{" "}
           <a
-            href="https://gabis-links.vercel.app/profile/PWdCiy4SlsTV0AthmJM4igoWYld2"
+            href="https://gabislinks.vercel.app/profile/PWdCiy4SlsTV0AthmJM4igoWYld2"
             className="text-sky-700 hover:text-white"
           >
             GabisDev
