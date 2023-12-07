@@ -23,52 +23,59 @@ export function Header() {
       <div className="flex menu items-center sm:border-0 border-b border-gray-400 py-4 sm:py-3 w-full">
         <nav>
           <section className="flex sm:hidden w-full flex-row">
-            <div>   <h1 className="logo text-white pl-3 font-bold text-lg">
-        Gabis
-        <span className="bg-gradient-to-r from-sky-700 to-sky-700 bg-clip-text drop-shadow-lg text-transparent">
-          Links
-        </span>
-      </h1></div>
-            {!isNavOpen &&  <div
-              className="absolute text-sky-900 top-0 right-0 px-6 py-4"
-              onClick={() => setIsNavOpen((prev) => !prev)}
-            >
-              <FiMenu size={30} />  </div>}
-           
-          
+            <div>
+              {" "}
+              <h1 className="logo text-white pl-3 font-bold text-lg">
+                Gabis
+                <span className="bg-gradient-to-r from-sky-700 to-sky-700 bg-clip-text drop-shadow-lg text-transparent">
+                  Links
+                </span>
+              </h1>
+            </div>
+            {!isNavOpen && (
+              <div
+                className="absolute text-sky-900 top-0 right-0 px-6 py-4"
+                onClick={() => setIsNavOpen((prev) => !prev)}
+              >
+                <FiMenu size={30} />{" "}
+              </div>
+            )}
 
             <div
               className={
                 isNavOpen
-                  ? "absolute w-full min-h-screen text-sky-700 top-0 left-0 bg-white transition-all z-10 flex flex-col justify-evenly items-start pl-8"
-                  : "hidden"
+                  ? "absolute transform-x-2 w-full transition-transform motion-reduce:transition-none min-h-screen text-sky-700 top-0 left-0 bg-white z-10 flex flex-col justify-evenly items-start pl-8"
+                  : " translate-x-full transition-transform motion-reduce:transition-none "
               }
             >
-              <div
-                className="absolute top-0 right-0 px-8 py-8"
-                onClick={() => setIsNavOpen(false)}
-              >
-               <IoIosCloseCircle size={30}/>
-              </div>
-              <ul className="flex flex-col justify-between min-h-[250px]">
-                <li className="border-b border-gray-400 my-8 uppercase">
-                  <Link to={`/profile/${userId}`}>Perfil</Link>
-                </li>
-                <li className="border-b border-gray-400 my-8 uppercase">
-                  <Link to='/conta'>Conta</Link>
-                </li>
-                <li className="border-b border-gray-400 my-8 uppercase">
-                  <Link to='/links'>Links</Link>
-                </li>
-                <li className="border-b border-gray-400 my-8 uppercase">
-                  <Link to='/redes-sociais'>Redes Sociais</Link>
-                </li>
-                <li
-                onClick={handleLogout}
-                 className="border-b border-gray-400 my-8 uppercase">
-                  Sair
-                </li>
-              </ul>
+              {isNavOpen && <div>
+                <div
+                  className="absolute top-0 right-0 px-8 py-8"
+                  onClick={() => setIsNavOpen(false)}
+                >
+                  <IoIosCloseCircle size={30} />
+                </div>
+                <ul className="flex flex-col justify-between min-h-[250px]">
+                  <li className="border-b border-gray-400 my-8 uppercase">
+                    <Link to={`/profile/${userId}`}>Perfil</Link>
+                  </li>
+                  <li className="border-b border-gray-400 my-8 uppercase">
+                    <Link to="/conta">Conta</Link>
+                  </li>
+                  <li className="border-b border-gray-400 my-8 uppercase">
+                    <Link to="/links">Links</Link>
+                  </li>
+                  <li className="border-b border-gray-400 my-8 uppercase">
+                    <Link to="/redes-sociais">Redes Sociais</Link>
+                  </li>
+                  <li
+                    onClick={handleLogout}
+                    className="border-b border-gray-400 my-8 uppercase"
+                  >
+                    Sair
+                  </li>
+                </ul>
+              </div>}
             </div>
           </section>
         </nav>

@@ -41,6 +41,7 @@ function LoginProvider({ children }: LoginProviderProps) {
         localStorage.setItem("@reactlinks", JSON.stringify(userData));
         setLoading(false);
         setSigned(true);
+        setIsReady(true);
         setUserName(userData.name!);
         setEmail(userData.email!);
         setUserId(userData.id!)
@@ -49,6 +50,7 @@ function LoginProvider({ children }: LoginProviderProps) {
       } else {
         setLoading(false);
         setSigned(false);
+        setIsReady(false);
       }
     });
 

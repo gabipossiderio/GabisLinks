@@ -123,7 +123,7 @@ export function LinksManagement() {
       {links.map((link) => (
         <article
           key={link.id}
-          className="flex items-center justify-between max-w-xl w-full rounded py-3 px-2 mb-6 select-none"
+          className="flex items-center menu justify-between max-w-xl w-full rounded py-3 px-2 mb-6 select-none"
           style={{ backgroundColor: link.bg, color: link.color }}
         >
           <p>{link.name}</p>

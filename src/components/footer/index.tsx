@@ -38,7 +38,7 @@ export function Footer() {
         <small className=" text-xs menu text-gray-700/70">
           Todos os direitos reservados &#xa9; - {currentYear} - Desenvolvido por{" "}
           <a
-            href="https://gabislinks.vercel.app/profile/PWdCiy4SlsTV0AthmJM4igoWYld2"
+            href="https://gabislinks.vercel.app/profile/8JdYM56zWSNofa5QBKKIWZRyGAt2"
             className="text-sky-700 hover:text-white"
           >
             GabisDev

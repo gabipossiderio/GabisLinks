@@ -5,7 +5,6 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { updateProfileData } from "../../utils/manageProfileData";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { FailureNotice } from "../../components/notices/failure";
-import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 export function Register() {
@@ -15,7 +14,6 @@ export function Register() {
   const [msgEmpty, setMsgEmpty] = useState("")
   const [msgPassword, setMsgPassword] = useState("")
   const [msgErrorRegister, setMsgErrorRegister] = useState("")
-  const navigate = useNavigate();
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -54,7 +52,6 @@ export function Register() {
         setMsgErrorRegister("Endereço de e-mail em uso")
         setTimeout(() => {
           setMsgErrorRegister("");
-          navigate('/login')
         }, 3000)
       }
     });
