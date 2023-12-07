@@ -33,7 +33,7 @@ export function Account() {
   const [description, setDescription] = useState("");
   const [updated, setUpdated] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { userId } = useContext(LoginContext);
+  const { userId, setIsReady } = useContext(LoginContext);
   const [photoURL, setPhotoURL] = useState("");
   const [deleteImg, setDeleteImg] = useState(false);
   const [typedCharacters, setTypedCharacters] = useState(150);
@@ -134,6 +134,7 @@ export function Account() {
 
     deleteUser(user!)
       .then(() => {
+        setIsReady(false)
         navigate("/login");
       })
       .catch((error) => {

@@ -13,6 +13,8 @@ type LoginContextData = {
   email: string;
   photo: string;
   userId: string;
+  isReady: boolean;
+  setIsReady: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const LoginContext = createContext({} as LoginContextData);
@@ -24,6 +26,7 @@ function LoginProvider({ children }: LoginProviderProps) {
   const [userId, setUserId] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [photo, setPhoto] = useState<string>("");
+  const [isReady, setIsReady] = useState<boolean>(false)
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
@@ -56,7 +59,7 @@ function LoginProvider({ children }: LoginProviderProps) {
   }, [userName, email]);
 
   return (
-    <LoginContext.Provider value={{ signed, loading, userName, email, photo, userId }}>
+    <LoginContext.Provider value={{ signed, loading, userName, email, photo, userId, isReady, setIsReady }}>
       {children}
     </LoginContext.Provider>
   );

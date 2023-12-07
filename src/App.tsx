@@ -8,6 +8,5 @@ export function App(){
     <LoginProvider>
       <RouterProvider router={router} />
     </LoginProvider>
-    
   )
 }

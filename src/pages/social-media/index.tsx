@@ -40,9 +40,10 @@ export function SocialMedia() {
     user_description: description,
     user_photo: photoURL,
   };
+
   function handleRegister(e: FormEvent) {
     e.preventDefault();
-    updateProfileData(data);
+    updateProfileData(data).then(() => {console.log('finished')});
     setUpdated(true);
     setTimeout(() => {
       setUpdated(false);

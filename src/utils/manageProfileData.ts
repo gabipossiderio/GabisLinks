@@ -11,14 +11,16 @@ interface ProfileData {
   facebook: string
 }
 
-export function loadProfileData(userId: string) {
+export async function loadProfileData(userId: string) {
   const socialRef = collection(db, "profile");
   const querySocialRef = query(socialRef, where("user_id", "==", userId));
-  return getDocs(querySocialRef)
+  const docs = await getDocs(querySocialRef)
+  return docs
 }
 
 export async function updateProfileData(data: ProfileData) {
   const { user_id } = data
   const profileDocRef = doc(db, "profile", user_id);
-  setDoc(profileDocRef, data)
+  const updatedDoc = await setDoc(profileDocRef, data)
+  return updatedDoc
 }

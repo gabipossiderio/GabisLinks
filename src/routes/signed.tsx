@@ -1,4 +1,4 @@
-import { ReactNode, useContext} from 'react'
+import { ReactNode, useContext, useCallback } from 'react'
 import { Navigate } from "react-router-dom";
 import { LoginContext } from "../contexts/login";
 import { LoadingNotice } from "../components/notices/loading";
@@ -8,14 +8,17 @@ interface PrivateProps{
 }
 
 export function Signed({ children }: PrivateProps): any{
-  const { signed } = useContext(LoginContext);
-  const { loading } = useContext(LoginContext);
+  const { signed, loading, isReady } = useContext(LoginContext);
 
+  const isFullAuth = useCallback(() => {
+    return signed && isReady
+  }, [signed, isReady])
+ 
   if(loading){
     return (<LoadingNotice noticeText="Carregando"/>)
   }
 
-  if(signed){
+  if(isFullAuth()){
     return <Navigate to='/conta' />
   }
 

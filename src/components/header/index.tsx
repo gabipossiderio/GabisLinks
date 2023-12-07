@@ -7,9 +7,10 @@ import { LoginContext } from "../../contexts/login";
 
 export function Header(){
   const navigate = useNavigate();
-  const { userId } = useContext(LoginContext);
+  const { userId, setIsReady } = useContext(LoginContext);
 
   async function handleLogout(){
+    setIsReady(false)
     await signOut(auth);
     navigate("/login"), {replace: true}
   }

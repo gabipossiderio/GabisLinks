@@ -46,7 +46,7 @@ export function Register() {
         instagram: "",
         facebook: "",
       };
-      updateProfileData(data)
+      updateProfileData(data).then(() => {console.log('finished')})
     })
     .catch((error) => {
       const errorCode = error.code;

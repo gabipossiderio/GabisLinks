@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "../../components/input";
 import { FcGoogle } from "react-icons/fc";
@@ -16,6 +16,7 @@ import {
 } from "../../utils/manageProfileData";
 import { FailureNotice } from "../../components/notices/failure";
 import { Helmet } from "react-helmet";
+import { LoginContext } from "../../contexts/login";
 
 interface DataProps {
   user_photo: string;
@@ -34,15 +35,17 @@ export function Login() {
   const [password, setPassword] = useState("");
   const [msgErrorLogin, setMsgErrorLogin] = useState("");
   const [userData, setUserData] = useState<DataProps>();
+  const { setIsReady } = useContext(LoginContext)
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (userData != null){
+    if (userData != null) {
       updateProfileData(userData!).then(() => {
         console.log("finished");
+        setIsReady(true)
       });
     }
-   
   }, [userData]);
 
   function handleSubmit(e: FormEvent) {
@@ -83,17 +86,19 @@ export function Login() {
     signInWithPopup(auth, provider)
       .then((result) => {
         const user = result.user;
-        loadProfileData(user.uid).then((result) => {
-          if (result.size === 0) {
+        loadProfileData(user.uid).then((snapshot) => {
+          if (snapshot.size === 0) {
             setUserData({
               user_photo: "",
-              user_name: user.displayName!,
+              user_name: user.displayName || '',
               user_id: user.uid,
               user_description: "",
               youtube: "",
               instagram: "",
               facebook: "",
             });
+          } else {
+            setIsReady(true)
           }
         });
       })
