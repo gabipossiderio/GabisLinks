@@ -23,7 +23,7 @@ export function Footer() {
           <div className="flex justify-center py-2s">
             {" "}
             <a
-              href="https://gabislinks.vercel.app/"
+              href="https://gabislinks.vercel.app/cadastro"
               rel="noopener noreferrer"
               className="menu text-xs text-gray-900/90 hover:scale-105 hover:text-sky-700 transition-all text-center gap-1 flex max-w-xs justify-center items-center"
               target="_blank"

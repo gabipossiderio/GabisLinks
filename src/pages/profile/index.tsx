@@ -2,15 +2,15 @@ import { useEffect, useState, useContext } from "react";
 import { Social } from "../../components/social-icons";
 import { LoginContext } from "../../contexts/login";
 import { db } from "../../services/firebaseConnection";
-import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaYoutube, FaRegCopy } from "react-icons/fa";
 import { getDocs, collection, orderBy, query, where } from "firebase/firestore";
 import { Header } from "../../components/header";
 import { useNavigate, useParams } from "react-router-dom";
 import { loadProfileData } from "../../utils/manageProfileData";
 import PlaceholderImage from "../../assets/sem-foto.png";
 import { ConfirmationNotice } from "../../components/notices/confirmation";
-import { FaRegShareSquare, FaRegCopy } from "react-icons/fa";
 import { IoIosCloseCircle } from "react-icons/io";
+import { FiShare2 } from "react-icons/fi";
 import { Helmet } from "react-helmet";
 
 interface LinkProps {
@@ -25,7 +25,7 @@ export function Profile() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [links, setLinks] = useState<LinkProps[]>([]);
-  const { signed } = useContext(LoginContext);
+  const { signed, userId } = useContext(LoginContext);
   const [facebook, setFacebook] = useState("");
   const [instagram, setInstagram] = useState("");
   const [loading, setLoading] = useState(false);
@@ -134,16 +134,16 @@ export function Profile() {
               </div>
             )}
 
-            {signed && (
+            {signed && userId == id &&
               <button
                 className="hover:text-white/70 hover:scale-110 text-sky-700 transition-all"
                 onClick={() => {
                   setShowCopyModal(true);
                 }}
               >
-                <FaRegShareSquare size={24} />
+                <FiShare2 size={24} />
               </button>
-            )}
+            }
           </div>
           <div className="flex flex-col items-center w-full max-w-xl">
             {!photoURL && !signed && <div className="mt-16"></div>}
@@ -196,7 +196,7 @@ export function Profile() {
               </div>
             </div>
           )}
-          <main className="flex flex-col w-10/12 items-center menu mb-4 mt-2 max-w-xl text-center">
+          <main className="flex flex-col w-10/12 items-center menu mb-4 mt-6 max-w-xl text-center">
             {links.length === 0 && signed && (
               <h2 className="menu select-none bg-white/20 rounded-sm p-3 mt-5 mb-2 w-3/4 text-center text-base menu font-medium text-white drop-shadow-lg max-w-xl">
                 Você ainda não possui links cadastrados.
@@ -219,7 +219,7 @@ export function Profile() {
               </section>
             ))}
 
-            <div className="flex justify-center gap-4 my-4 mb-2 text-white ">
+            <div className="flex justify-center gap-4 my-4 mb-2 text-sky-700 ">
               {facebook != "" && (
                 <div className="mb-14">
                   {" "}

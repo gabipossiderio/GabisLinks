@@ -10,7 +10,7 @@ export function Social({url, children}: SocialProps){
       href={url}
       rel="noopener noreferrer"
       target="_blank"
-      className=" hover:text-sky-700 hover:scale-105 transition ease-in-out delay-150 duration-300 drop-shadow-lg"
+      className=" hover:text-white hover:scale-105 transition ease-in-out delay-150 duration-300 drop-shadow-lg"
     >
       {children}
     </a>

@@ -172,6 +172,7 @@ export function LinksManagement() {
             value={nameInput}
             required
             placeholder="Minha Página no Linkedin"
+            maxLength={40}
             onChange={(e) => setNameInput(e.target.value)}
           />
 
