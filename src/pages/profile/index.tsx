@@ -8,10 +8,10 @@ import { Header } from "../../components/header";
 import { useNavigate, useParams } from "react-router-dom";
 import { loadProfileData } from "../../utils/manageProfileData";
 import PlaceholderImage from "../../assets/sem-foto.png";
-import { ConfirmationNotice } from "../../components/notices/confirmation";
 import { IoIosCloseCircle } from "react-icons/io";
 import { FiShare2 } from "react-icons/fi";
 import { Helmet } from "react-helmet";
+import toast from "react-hot-toast";
 
 interface LinkProps {
   id: string;
@@ -34,7 +34,6 @@ export function Profile() {
   const [photoURL, setPhotoURL] = useState("");
   const [description, setDescription] = useState("");
   const [currentUrl, setCurrentUrl] = useState("");
-  const [msgCopiedText, setMsgCopiedText] = useState("");
   const [showCopyModal, setShowCopyModal] = useState(false);
 
   useEffect(() => {
@@ -100,10 +99,7 @@ export function Profile() {
   async function Copy() {
     try {
       await navigator.clipboard.writeText(currentUrl);
-      setMsgCopiedText("Texto copiado");
-      setTimeout(() => {
-        setMsgCopiedText("");
-      }, 2000);
+      toast.success("Link copiado com sucesso.");
     } catch (err) {
       console.log("Falha ao copiar o texto", err);
     }
@@ -121,9 +117,6 @@ export function Profile() {
         <div className="flex flex-col mb-10 w-full logo items-center justify-center">
           {signed && <Header />}
           <div className="flex items-end">
-            {signed && msgCopiedText && (
-              <ConfirmationNotice noticeText={msgCopiedText} />
-            )}
             {(photoURL || signed) && (
               <div>
                 <img

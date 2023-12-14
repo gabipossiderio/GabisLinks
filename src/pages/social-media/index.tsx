@@ -3,8 +3,8 @@ import { Input } from "../../components/input";
 import { Header } from "../../components/header";
 import { LoginContext } from "../../contexts/login";
 import { loadProfileData, updateProfileData } from "../../utils/manageProfileData";
-import { ConfirmationNotice } from "../../components/notices/confirmation";
 import { Helmet } from "react-helmet";
+import toast from "react-hot-toast";
 
 export function SocialMedia() {
   const [facebook, setFacebook] = useState("");
@@ -14,7 +14,6 @@ export function SocialMedia() {
   const [photoURL, setPhotoURL] = useState("");
   const [description, setDescription] = useState("");
   const { userId } = useContext(LoginContext);
-  const [updated, setUpdated] = useState(false);
 
   useEffect(() => {
     loadProfileData(userId).then((snapshot) => {
@@ -44,10 +43,7 @@ export function SocialMedia() {
   function handleRegister(e: FormEvent) {
     e.preventDefault();
     updateProfileData(data).then(() => {console.log('finished')});
-    setUpdated(true);
-    setTimeout(() => {
-      setUpdated(false);
-    }, 2000);
+    toast.success("Redes atualizadas com sucesso.");
   }
 
   return (
@@ -56,9 +52,6 @@ export function SocialMedia() {
         <title>Redes Sociais - GabisLinks</title>
       </Helmet>
       <Header />
-      {updated && (
-        <ConfirmationNotice noticeText={"Suas redes foram atualizadas"} />
-      )}
       <h1 className="logo mt-11 text-white mb-7 font-bold text-6xl">
         Minhas
         <span className="bg-gradient-to-r from-sky-700 to-sky-700 bg-clip-text drop-shadow-lg text-transparent">

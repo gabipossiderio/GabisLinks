@@ -14,9 +14,9 @@ import {
   loadProfileData,
   updateProfileData,
 } from "../../utils/manageProfileData";
-import { FailureNotice } from "../../components/notices/failure";
 import { Helmet } from "react-helmet";
 import { LoginContext } from "../../contexts/login";
+import toast from "react-hot-toast";
 
 interface DataProps {
   user_photo: string;
@@ -30,10 +30,7 @@ interface DataProps {
 
 export function Login() {
   const [email, setEmail] = useState("");
-  const [msgEmailEmpty, setMsgEmailEmpty] = useState("");
-  const [msgFieldEmpty, setMsgFieldEmpty] = useState("");
   const [password, setPassword] = useState("");
-  const [msgErrorLogin, setMsgErrorLogin] = useState("");
   const [userData, setUserData] = useState<DataProps>();
   const { setIsReady } = useContext(LoginContext)
 
@@ -46,16 +43,13 @@ export function Login() {
         setIsReady(true)
       });
     }
-  }, [userData]);
+  }, [userData, setIsReady]);
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
     if (email === "" || password === "") {
-      setMsgFieldEmpty("Por favor, preencha todos os dados para continuar");
-      setTimeout(() => {
-        setMsgFieldEmpty("");
-      }, 2000);
+      toast.error("Preencha todos os campos para continuar.");
       return;
     }
 
@@ -67,10 +61,7 @@ export function Login() {
       .catch((error) => {
         const errorCode = error.code;
         if (errorCode == "auth/invalid-credential") {
-          setMsgErrorLogin("E-mail ou senha incorretos");
-          setTimeout(() => {
-            setMsgErrorLogin("");
-          }, 2000);
+          toast.error("E-mail ou senha incorretos!");
         }
       });
   }
@@ -111,15 +102,11 @@ export function Login() {
     e.preventDefault();
     const auth = getAuth();
     if (email === "") {
-      setMsgEmailEmpty("Por favor, preencha o e-mail para continuar");
-      setTimeout(() => {
-        setMsgEmailEmpty("");
-      }, 2000);
+      toast.error("Preencha o e-mail para continuar.");
       return;
     }
     sendPasswordResetEmail(auth, email)
       .then(() => {
-        console.log("EMAIL ENVIADO");
         navigate("/email-enviado"), { history: true };
       })
       .catch((error) => {
@@ -132,9 +119,6 @@ export function Login() {
       <Helmet>
         <title>Login - GabisLinks</title>
       </Helmet>
-      {msgFieldEmpty && <FailureNotice noticeText={msgFieldEmpty} />}
-      {msgEmailEmpty && <FailureNotice noticeText={msgEmailEmpty} />}
-      {msgErrorLogin && <FailureNotice noticeText={msgErrorLogin} />}
       <h1 className="logo mt-11 text-white mb-7 font-bold text-7xl">
         Gabis
         <span className="bg-gradient-to-r from-sky-700 to-sky-700 bg-clip-text drop-shadow-lg text-transparent">

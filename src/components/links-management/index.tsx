@@ -14,8 +14,7 @@ import {
   deleteDoc,
   where
 } from "firebase/firestore";
-import { ConfirmationNotice } from "../notices/confirmation";
-import { FailureNotice } from "../notices/failure";
+import toast from "react-hot-toast";
 
 interface LinkProps {
   id: string;
@@ -34,8 +33,6 @@ export function LinksManagement() {
   const [links, setLinks] = useState<LinkProps[]>([]);
   const [showRegister, setShowRegister] = useState(false);
   const { userId } = useContext(LoginContext);
-  const [created, setCreated] = useState(false);
-  const [msgEmpty, setMsgEmpty] = useState("")
 
   useEffect(() => {
     const linksRef = collection(db, "links");
@@ -66,10 +63,7 @@ export function LinksManagement() {
     e.preventDefault();
 
     if (nameInput === "" || urlInput === "") {
-      setMsgEmpty("Por favor, preencha todos os dados para continuar.")
-      setTimeout(() => {
-        setMsgEmpty("");
-      }, 2000)
+      toast.error("Preencha todos os campos para continuar.");
       return;
     }
 
@@ -84,10 +78,7 @@ export function LinksManagement() {
       .then(() => {
         setNameInput("");
         setUrlInput("");
-        setCreated(true);
-        setTimeout(() => {
-          setCreated(false);
-        }, 2000);
+        toast.success("Link criado com sucesso.");
       })
       .catch((error) => {
         console.log("Erro ao cadastrar no banco de dados" + error);
@@ -111,8 +102,6 @@ export function LinksManagement() {
 
   return (
     <div className="flex items-center select-none flex-col pb-7 px-2 max-w-2xl w-full">
-      {created && <ConfirmationNotice noticeText={"Link cadastrado"}/>}
-      {msgEmpty && <FailureNotice noticeText={msgEmpty}/>}
       <h1 className="logo mt-11 text-white mb-7 font-bold text-6xl">
         Meus
         <span className="bg-gradient-to-r from-sky-700 to-sky-700 bg-clip-text drop-shadow-lg text-transparent">

@@ -4,31 +4,22 @@ import { auth } from "../../services/firebaseConnection";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { updateProfileData } from "../../utils/manageProfileData";
 import { RiLockPasswordFill } from "react-icons/ri";
-import { FailureNotice } from "../../components/notices/failure";
 import { Helmet } from "react-helmet";
+import toast from "react-hot-toast";
 
 export function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [msgEmpty, setMsgEmpty] = useState("")
-  const [msgPassword, setMsgPassword] = useState("")
-  const [msgErrorRegister, setMsgErrorRegister] = useState("")
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     if (email == "" || password == "" || name == "") {
-      setMsgEmpty("Por favor, preencha todos os dados para continuar.")
-      setTimeout(() => {
-        setMsgEmpty("");
-      }, 2000)
+      toast.error("Preencha todos os campos para continuar.");
       return
     } else {
       if (password.length < 6) {
-        setMsgPassword("Sua senha precisa ter, no mínimo, 6 caracteres.")
-        setTimeout(() => {
-          setMsgPassword("");
-        }, 2000)
+        toast.error("Sua senha precisa ter 6 caracteres.");
         return
       }
     }
@@ -49,10 +40,7 @@ export function Register() {
     .catch((error) => {
       const errorCode = error.code;
       if (errorCode == "auth/email-already-in-use"){
-        setMsgErrorRegister("Endereço de e-mail em uso")
-        setTimeout(() => {
-          setMsgErrorRegister("");
-        }, 3000)
+        toast.error("Endereço de e-mail em uso.");
       }
     });
   }
@@ -62,10 +50,7 @@ export function Register() {
        <Helmet>
         <title>Cadastro - GabisLinks</title>
       </Helmet>
-      {msgEmpty && <FailureNotice noticeText={msgEmpty}/>}
-      {msgPassword && <FailureNotice noticeText={msgPassword}/>}
-      {msgErrorRegister && <FailureNotice noticeText={msgErrorRegister}/>}
-    
+  
       <h1 className="logo mt-5 text-white mb-7 font-bold text-6xl">
         Criar
         <span className="bg-gradient-to-r from-sky-700 to-sky-700 bg-clip-text drop-shadow-lg text-transparent">

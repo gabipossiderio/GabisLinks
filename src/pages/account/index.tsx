@@ -4,7 +4,6 @@ import { LoginContext } from "../../contexts/login";
 import { Input } from "../../components/input";
 import { Header } from "../../components/header";
 import { IoIosCloseCircle } from "react-icons/io";
-import { MdSmsFailed } from "react-icons/md";
 import {
   getDownloadURL,
   ref,
@@ -14,14 +13,12 @@ import {
 import { loadProfileData, updateProfileData } from "../../utils/manageProfileData";
 import PlaceholderImage from "../../assets/sem-foto.png";
 import { FaTrash } from "react-icons/fa6";
-import { ConfirmationNotice } from "../../components/notices/confirmation";
-import { LoadingNotice } from "../../components/notices/loading";
 import { deleteUser, getAuth, updatePassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { RiLockPasswordFill } from "react-icons/ri";
-import { FailureNotice } from "../../components/notices/failure";
 import { MdDeleteForever } from "react-icons/md";
 import { Helmet } from "react-helmet";
+import toast from "react-hot-toast";
 
 export function Account() {
   const [facebook, setFacebook] = useState("");
@@ -31,16 +28,12 @@ export function Account() {
   const [photo, setPhoto] = useState<File>();
   const [password, setPassword] = useState("");
   const [description, setDescription] = useState("");
-  const [updated, setUpdated] = useState(false);
-  const [loading, setLoading] = useState(false);
   const { userId, setIsReady } = useContext(LoginContext);
   const [photoURL, setPhotoURL] = useState("");
   const [deleteImg, setDeleteImg] = useState(false);
   const [typedCharacters, setTypedCharacters] = useState(150);
   const [showAccountModal, setShowAccountModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
-  const [msgPassword, setMsgPassword] = useState("");
-  const [msgNameEmpty, setMsgNameEmpty] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -74,10 +67,7 @@ export function Account() {
   function handleProfileRegister(e: FormEvent) {
     e.preventDefault();
     if (name === "") {
-      setMsgNameEmpty("Por favor, preencha seu nome");
-      setTimeout(() => {
-        setMsgNameEmpty("");
-      }, 2000);
+      toast.error("Preencha seu nome para continuar.");
       return;
     }
     handleUploadImage().catch((error) => {
@@ -100,10 +90,7 @@ export function Account() {
 
     updateProfileData(data)
       .then(() => {
-        setUpdated(true);
-        setTimeout(() => {
-          setUpdated(false);
-        }, 2000);
+        toast.success("Conta atualizada com sucesso.");
       })
       .catch((error) => {
         console.log(error);
@@ -112,20 +99,22 @@ export function Account() {
 
   async function handleUploadImage() {
     if (photo == null) return;
-    setLoading(true);
     const imageRef = ref(storage, `images/${userId}`);
+    toast.promise(
     uploadBytes(imageRef, photo)
       .then(() => {
         getDownloadURL(imageRef).then((url) => {
           console.log(url);
           setPhotoURL(url);
-          setLoading(false);
           setPhoto(undefined);
         });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        }),
+        {
+          loading: 'Carregando...',
+          success: <b>Foto atualizada!</b>,
+          error: <b>Erro ao atualizar.</b>
+        })
+    
   }
 
   function handleDeleteAccount() {
@@ -145,10 +134,7 @@ export function Account() {
   function handleChangePassword(e: FormEvent) {
     e.preventDefault();
     if (password.length < 6) {
-      setMsgPassword("Sua senha precisa ter, no mínimo, 6 caracteres.");
-      setTimeout(() => {
-        setMsgPassword("");
-      }, 2000);
+      toast.error("Sua senha precisa ter 6 caracteres.");
       return;
     }
     const auth = getAuth();
@@ -170,9 +156,6 @@ export function Account() {
         <title>Minha Conta - GabisLinks</title>
       </Helmet>
       <Header />
-      {updated && <ConfirmationNotice noticeText={"Conta atualizada"} />}
-      {msgNameEmpty && <FailureNotice noticeText={msgNameEmpty} />}
-      {loading && <LoadingNotice noticeText={"Carregando"} />}
       <h1 className="logo mt-11 text-white mb-7 font-bold text-6xl">
         Minha
         <span className="bg-gradient-to-r from-sky-700 to-sky-700 bg-clip-text drop-shadow-lg text-transparent">
@@ -345,15 +328,6 @@ export function Account() {
                     <h3 className="text-2xl text-gray-700 font-semibold mb-4">
                       Alterar senha de acesso
                     </h3>
-                    <div className="text-sm max-w-sm w-fit">
-                      {msgPassword && (
-                        <div className="max-w-xl mt-1 px-3 py-2 gap-1 select-none text-center menu text-white flex items-center justify-between bg-gradient-to-r text-md from-sky-700 to-sky-700/90 drop-shadow-lg rounded-md">
-                          <MdSmsFailed size={22} />
-                          {msgPassword}
-                        </div>
-                      )}
-                    </div>
-
                     <div className="flex gap-4 flex-col">
                       <form
                         onSubmit={handleChangePassword}
